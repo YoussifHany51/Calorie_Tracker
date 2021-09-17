@@ -162,32 +162,37 @@ class _HomeState extends State<Home> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.normal),
                                 ),
-                                Row(
-                                  children: [
-                                    controllerValue == null
-                                        ? Text(
-                                            '0',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 26,
-                                                fontWeight: FontWeight.bold),
-                                          )
-                                        : Text(
-                                            controllerValue!,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 26,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                    Text(
-                                      " Kcal",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 26,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
+                                Consumer<SelectedItem>(
+                                    builder: (context, selectedItem, child) {
+                                  return Row(
+                                    children: [
+                                      controllerValue == null
+                                          ? Text(
+                                              '0',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 26,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          : Text(
+                                              '${(convert(controllerValue!) - selectedItem.totalCal)}',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 26,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                      Text(
+                                        " Kcal",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 26,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ],
+                                  );
+                                }),
+
+                                // End Consumer
                               ],
                             ),
                           ],
@@ -239,6 +244,7 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 ),
+
                 Padding(
                   padding: EdgeInsets.only(right: 180),
                   child: Text(
