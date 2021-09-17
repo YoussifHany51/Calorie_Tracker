@@ -28,6 +28,12 @@ class _HomeState extends State<Home> {
     getStringList();
   }
 
+  var res;
+  int convert(String x) {
+    res = int.parse(x);
+    return res;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +78,8 @@ class _HomeState extends State<Home> {
                         radius: 220,
                         lineWidth: 12,
                         backgroundColor: Colors.blue.shade800,
-                        percent: 0.76,
+                        percent:
+                            (selectedItem.totalCal / convert(controllerValue!)),
                         progressColor: Colors.white,
                         circularStrokeCap: CircularStrokeCap.round,
                         animation: true,
@@ -82,7 +89,8 @@ class _HomeState extends State<Home> {
                           height: 200.0,
                           width: 200.0,
                           child: LiquidCircularProgressIndicator(
-                            value: 0.76,
+                            value: (selectedItem.totalCal /
+                                convert(controllerValue!)),
                             valueColor: AlwaysStoppedAnimation(Colors.blue),
                             backgroundColor: Colors.lightBlue.shade900,
                             borderColor: Colors.black54,
@@ -92,7 +100,8 @@ class _HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "76" + "%",
+                                  '${((selectedItem.totalCal / convert(controllerValue!)) * 100).toStringAsFixed(1)} ' +
+                                      "%",
                                   style: TextStyle(
                                       fontSize: 40,
                                       color: Colors.white,
