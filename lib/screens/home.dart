@@ -18,9 +18,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   TextEditingController controller = TextEditingController();
-  String? controllerValue = '';
-  List<String>? mealValue = [];
-  List<Meal>? mealConvert = [];
+  String controllerValue = '0';
+
   @override
   void initState() {
     super.initState();
@@ -78,8 +77,9 @@ class _HomeState extends State<Home> {
                         radius: 220,
                         lineWidth: 12,
                         backgroundColor: Colors.blue.shade800,
-                        percent:
-                            (selectedItem.totalCal / convert(controllerValue!)),
+                        percent: convert(controllerValue) != 0
+                            ? (selectedItem.totalCal / convert(controllerValue))
+                            : 0,
                         progressColor: Colors.white,
                         circularStrokeCap: CircularStrokeCap.round,
                         animation: true,
@@ -89,8 +89,10 @@ class _HomeState extends State<Home> {
                           height: 200.0,
                           width: 200.0,
                           child: LiquidCircularProgressIndicator(
-                            value: (selectedItem.totalCal /
-                                convert(controllerValue!)),
+                            value: convert(controllerValue) != 0
+                                ? (selectedItem.totalCal /
+                                    convert(controllerValue))
+                                : 0,
                             valueColor: AlwaysStoppedAnimation(Colors.blue),
                             backgroundColor: Colors.lightBlue.shade900,
                             borderColor: Colors.black54,
@@ -100,8 +102,10 @@ class _HomeState extends State<Home> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${((selectedItem.totalCal / convert(controllerValue!)) * 100).toStringAsFixed(1)} ' +
-                                      "%",
+                                  convert(controllerValue) != 0
+                                      ? '${((selectedItem.totalCal / convert(controllerValue)) * 100).toStringAsFixed(1)} ' +
+                                          "%"
+                                      : '0 ' + '%',
                                   style: TextStyle(
                                       fontSize: 40,
                                       color: Colors.white,
@@ -166,6 +170,7 @@ class _HomeState extends State<Home> {
                                     builder: (context, selectedItem, child) {
                                   return Row(
                                     children: [
+                                      // ignore: unnecessary_null_comparison
                                       controllerValue == null
                                           ? Text(
                                               '0',
@@ -175,7 +180,7 @@ class _HomeState extends State<Home> {
                                                   fontWeight: FontWeight.bold),
                                             )
                                           : Text(
-                                              '${(convert(controllerValue!) - selectedItem.totalCal)}',
+                                              '${(convert(controllerValue) - selectedItem.totalCal)}',
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 26,
@@ -402,6 +407,8 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     TextFormField(
+                      validator: (input) =>
+                          input!.trim().isEmpty ? 'Please Enter number' : ' ',
                       controller: controller,
                       style: TextStyle(fontSize: 18),
                       decoration: InputDecoration(
@@ -438,7 +445,7 @@ class _HomeState extends State<Home> {
 
   void getController() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    controllerValue = prefs.getString('caloriesController');
+    controllerValue = prefs.getString('caloriesController')!;
     setState(() {});
   }
 
@@ -453,7 +460,6 @@ class _HomeState extends State<Home> {
   //     context,
   //     listen: false,
   //   ).meals = prefs.getStringList('meals')!.cast<Meal>();
-  //   setState(() {});
   // }
   Future<List<dynamic>> getStringList() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
