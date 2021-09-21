@@ -24,13 +24,23 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     getController();
-    getStringList();
+    //getStringList();
   }
 
   var res;
   int convert(String x) {
     res = int.parse(x);
     return res;
+  }
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  bool validate() {
+    if (formKey.currentState!.validate()) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -329,7 +339,7 @@ class _HomeState extends State<Home> {
               List<Meal> meals =
                   Provider.of<SelectedItem>(context, listen: false).meals;
 
-              storeStringList(meals);
+              //storeStringList(meals);
               return ListTile(
                 contentPadding: EdgeInsets.all(16),
                 title: Text(
@@ -404,35 +414,54 @@ class _HomeState extends State<Home> {
           return AlertDialog(
               title: Text('Enter your daily needed calories'),
               content: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    TextFormField(
-                      validator: (input) =>
-                          input!.trim().isEmpty ? 'Please Enter number' : ' ',
-                      controller: controller,
-                      style: TextStyle(fontSize: 18),
-                      decoration: InputDecoration(
-                        labelText: 'Enter calories',
-                        labelStyle: TextStyle(fontSize: 18),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10)),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        validator: (input) {
+                          if (input!.isEmpty) {
+                            return "Please enter a number";
+                          } else {
+                            return null;
+                          }
+                        },
+                        controller: controller,
+                        style: TextStyle(fontSize: 18),
+                        decoration: InputDecoration(
+                          labelText: 'Enter calories',
+                          labelStyle: TextStyle(fontSize: 18),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.done,
                       ),
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.done,
-                    ),
-                    TextButton(
-                      child: Text('Submit'),
-                      onPressed: () {
-                        setController(controller.text);
-                        Navigator.of(context).pop();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    super.widget));
-                      },
-                    )
-                  ],
+                      TextButton(
+                        child: Text('Submit'),
+                        onPressed: () {
+                          // if (validate() == true) {
+                          //   setController(controller.text);
+                          //   Navigator.of(context).pop();
+                          //   Navigator.pushReplacement(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (BuildContext context) =>
+                          //               super.widget));
+                          // }
+                          if (formKey.currentState!.validate()) {
+                            setController(controller.text);
+                            Navigator.of(context).pop();
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        super.widget));
+                          }
+                        },
+                      )
+                    ],
+                  ),
                 ),
               ));
         });
@@ -449,10 +478,10 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  Future<void> storeStringList(list) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('meals', list);
-  }
+  // Future<void> storeStringList(list) async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setStringList('meals', list);
+  // }
 
   // void getStringList() async {
   //   final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -461,12 +490,12 @@ class _HomeState extends State<Home> {
   //     listen: false,
   //   ).meals = prefs.getStringList('meals')!.cast<Meal>();
   // }
-  Future<List<dynamic>> getStringList() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Provider.of<SelectedItem>(
-    //   context,
-    //   listen: false,
-    // ).meals =
-    return prefs.getStringList('meals')!.cast<Meal>();
-  }
+  // Future<List<dynamic>> getStringList() async {
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   // Provider.of<SelectedItem>(
+  //   //   context,
+  //   //   listen: false,
+  //   // ).meals =
+  //   return prefs.getStringList('meals')!.cast<Meal>();
+  // }
 }
