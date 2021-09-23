@@ -1,9 +1,13 @@
-import 'package:calorie_tracker/models/category.dart';
-import 'package:calorie_tracker/screens/mealsScreen.dart';
 import 'package:flutter/material.dart';
 
+import 'package:calorie_tracker/models/category.dart';
+import 'package:calorie_tracker/screens/mealsScreen.dart';
+
 class CategoryCarousel extends StatefulWidget {
-  CategoryCarousel({Key? key}) : super(key: key);
+  final int control;
+  CategoryCarousel({
+    required this.control,
+  });
 
   @override
   _CategoryCarouselState createState() => _CategoryCarouselState();
@@ -68,7 +72,10 @@ class _CategoryCarouselState extends State<CategoryCarousel> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (_) => MealScreen(category: category)));
+                        builder: (_) => MealScreen(
+                              category: category,
+                              controllerRes: widget.control,
+                            )));
               },
               child: Container(
                 child: Stack(
