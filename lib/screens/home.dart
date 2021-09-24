@@ -2,6 +2,7 @@ import 'package:calorie_tracker/models/meals.dart';
 import 'package:calorie_tracker/provider/selectedItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:intl/intl.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -17,14 +18,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  TextEditingController controller = TextEditingController();
+  static TextEditingController controller = TextEditingController();
   String controllerValue = '0';
-
   @override
   void initState() {
     super.initState();
     getController();
-    //getStringList();
   }
 
   var res;
@@ -63,7 +62,7 @@ class _HomeState extends State<Home> {
                   child: Row(
                     children: [
                       Text(
-                        "Hello",
+                        "Hello ",
                         style: TextStyle(
                             fontSize: 40,
                             fontWeight: FontWeight.w400,
@@ -87,9 +86,13 @@ class _HomeState extends State<Home> {
                         radius: 220,
                         lineWidth: 12,
                         backgroundColor: Colors.blue.shade800,
-                        percent: convert(controllerValue) != 0
-                            ? (selectedItem.totalCal / convert(controllerValue))
-                            : 0,
+                        percent:
+                            convert(controllerValue) >= selectedItem.totalCal
+                                ? convert(controllerValue) != 0
+                                    ? (selectedItem.totalCal /
+                                        convert(controllerValue))
+                                    : 0
+                                : warning(),
                         progressColor: Colors.white,
                         circularStrokeCap: CircularStrokeCap.round,
                         animation: true,
@@ -99,10 +102,13 @@ class _HomeState extends State<Home> {
                           height: 200.0,
                           width: 200.0,
                           child: LiquidCircularProgressIndicator(
-                            value: convert(controllerValue) != 0
-                                ? (selectedItem.totalCal /
-                                    convert(controllerValue))
-                                : 0,
+                            value: convert(controllerValue) >=
+                                    selectedItem.totalCal
+                                ? convert(controllerValue) != 0
+                                    ? (selectedItem.totalCal /
+                                        convert(controllerValue))
+                                    : 0
+                                : warning(),
                             valueColor: AlwaysStoppedAnimation(Colors.blue),
                             backgroundColor: Colors.lightBlue.shade900,
                             borderColor: Colors.black54,
@@ -176,6 +182,7 @@ class _HomeState extends State<Home> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.normal),
                                 ),
+                                // Consumer beginning
                                 Consumer<SelectedItem>(
                                     builder: (context, selectedItem, child) {
                                   return Row(
@@ -207,13 +214,14 @@ class _HomeState extends State<Home> {
                                   );
                                 }),
 
-                                // End Consumer
+                                // Consumer Ending
                               ],
                             ),
                           ],
                         ),
                       ),
                     ),
+                    // daily needed calories container
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 20),
                       child: InkWell(
@@ -257,6 +265,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                     ),
+                    // end daily needed calories container
                   ],
                 ),
 
@@ -271,7 +280,9 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 //
-                CategoryCarousel(),
+                CategoryCarousel(
+                  control: convert(controllerValue),
+                ),
                 //
 
                 Flex(direction: Axis.horizontal, children: [
@@ -280,7 +291,7 @@ class _HomeState extends State<Home> {
                       children: [
                         // ignore: deprecated_member_use
                         FlatButton(
-                            onPressed: () {
+                            onPressed: () async {
                               showSheet();
                             },
                             child: Text(
@@ -330,21 +341,16 @@ class _HomeState extends State<Home> {
           child: ListView.builder(
             itemCount:
                 Provider.of<SelectedItem>(context, listen: false).meals.length,
-
-            //  itemCount: mealConvert!.length,
-
             shrinkWrap: true,
             primary: false,
             itemBuilder: (BuildContext context, int index) {
               List<Meal> meals =
                   Provider.of<SelectedItem>(context, listen: false).meals;
 
-              //storeStringList(meals);
               return ListTile(
                 contentPadding: EdgeInsets.all(16),
                 title: Text(
                   meals[index].name,
-                  //mealConvert![index].name,
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.black,
@@ -420,8 +426,8 @@ class _HomeState extends State<Home> {
                     children: [
                       TextFormField(
                         validator: (input) {
-                          if (input!.isEmpty) {
-                            return "Please enter a number";
+                          if (input!.isEmpty || input.length < 4) {
+                            return "Please enter a number not less than 1000";
                           } else {
                             return null;
                           }
@@ -440,15 +446,6 @@ class _HomeState extends State<Home> {
                       TextButton(
                         child: Text('Submit'),
                         onPressed: () {
-                          // if (validate() == true) {
-                          //   setController(controller.text);
-                          //   Navigator.of(context).pop();
-                          //   Navigator.pushReplacement(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (BuildContext context) =>
-                          //               super.widget));
-                          // }
                           if (formKey.currentState!.validate()) {
                             setController(controller.text);
                             Navigator.of(context).pop();
@@ -478,24 +475,22 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  // Future<void> storeStringList(list) async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   await prefs.setStringList('meals', list);
-  // }
-
-  // void getStringList() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   Provider.of<SelectedItem>(
-  //     context,
-  //     listen: false,
-  //   ).meals = prefs.getStringList('meals')!.cast<Meal>();
-  // }
-  // Future<List<dynamic>> getStringList() async {
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   // Provider.of<SelectedItem>(
-  //   //   context,
-  //   //   listen: false,
-  //   // ).meals =
-  //   return prefs.getStringList('meals')!.cast<Meal>();
-  // }
+  warning() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text('Oops ! '),
+              content: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Text(
+                      "Stop gainning calories you have reached your target today",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ));
+        });
+  }
 }
