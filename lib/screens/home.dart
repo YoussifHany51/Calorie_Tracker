@@ -359,7 +359,6 @@ class _HomeState extends State<Home> {
                 ),
                 subtitle: Text(
                   meals[index].kcal + " Kcal",
-                  //mealConvert![index].kcal + " Kcal",
                   style: TextStyle(
                     fontSize: 14,
                     color: Colors.black,

@@ -7,8 +7,8 @@ class SelectedItem extends ChangeNotifier {
   int currentKcal = 0;
   addItem(Meal meal) {
     meals.add(meal);
-    totalCal += conertToInt(meal.kcal);
-    currentKcal = conertToInt(meal.kcal);
+    totalCal += convertToInt(meal.kcal);
+    currentKcal = convertToInt(meal.kcal);
     notifyListeners();
   }
 
@@ -20,7 +20,7 @@ class SelectedItem extends ChangeNotifier {
     return currentKcal;
   }
 
-  int conertToInt(String value) {
+  int convertToInt(String value) {
     return int.parse(value);
   }
 }
