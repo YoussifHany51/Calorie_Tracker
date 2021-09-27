@@ -16,9 +16,9 @@ class SelectedItem extends ChangeNotifier {
     return totalCal;
   }
 
-  int get currKcalFunction {
-    return currentKcal;
-  }
+  // int get currKcalFunction {
+  //   return currentKcal;
+  // }
 
   int convertToInt(String value) {
     return int.parse(value);
