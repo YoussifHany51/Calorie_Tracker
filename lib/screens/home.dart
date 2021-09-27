@@ -155,6 +155,7 @@ class _HomeState extends State<Home> {
                   )),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Padding(
                       padding:
