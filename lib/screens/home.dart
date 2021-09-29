@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 20,
+                  height: 5,
                 ),
                 Padding(
                   padding:
@@ -154,15 +154,32 @@ class _HomeState extends State<Home> {
                     },
                   )),
                 ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Enter your daily needed calories before adding meals ",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      Icon(Icons.arrow_downward_outlined, color: Colors.white)
+                    ],
+                  ),
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
                       child: Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                         decoration: BoxDecoration(
                             color: Colors.blue.shade800,
                             borderRadius: BorderRadius.circular(10)),
@@ -230,8 +247,8 @@ class _HomeState extends State<Home> {
                           _showMyDialog();
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 18),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 15, vertical: 5),
                           decoration: BoxDecoration(
                               color: Colors.blue.shade800,
                               borderRadius: BorderRadius.circular(10)),
@@ -270,8 +287,7 @@ class _HomeState extends State<Home> {
                   ],
                 ),
 
-                Padding(
-                  padding: EdgeInsets.only(right: 180),
+                Center(
                   child: Text(
                     "Choose your meal",
                     style: TextStyle(
@@ -280,6 +296,7 @@ class _HomeState extends State<Home> {
                         color: Colors.white),
                   ),
                 ),
+
                 //
                 CategoryCarousel(
                   control: convert(controllerValue),
