@@ -82,7 +82,7 @@ class _CategoryCarouselState extends State<CategoryCarousel> {
                   children: [
                     Container(
                       margin: EdgeInsets.all(10),
-                      height: 120,
+                      height: 100,
                       width: 110,
                       child: Hero(
                         tag: category.image,
