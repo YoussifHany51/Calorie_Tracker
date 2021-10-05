@@ -8,7 +8,7 @@ class SelectedItem extends ChangeNotifier {
   addItem(Meal meal) {
     meals.add(meal);
     totalCal += convertToInt(meal.kcal);
-    currentKcal = convertToInt(meal.kcal);
+    // currentKcal = convertToInt(meal.kcal);
     notifyListeners();
   }
 
