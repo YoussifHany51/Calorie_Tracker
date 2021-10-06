@@ -4,11 +4,6 @@ import 'package:calorie_tracker/models/category.dart';
 import 'package:calorie_tracker/screens/mealsScreen.dart';
 
 class CategoryCarousel extends StatefulWidget {
-  final int control;
-  CategoryCarousel({
-    required this.control,
-  });
-
   @override
   _CategoryCarouselState createState() => _CategoryCarouselState();
 }
@@ -74,7 +69,6 @@ class _CategoryCarouselState extends State<CategoryCarousel> {
                     MaterialPageRoute(
                         builder: (_) => MealScreen(
                               category: category,
-                              controllerRes: widget.control,
                             )));
               },
               child: Container(
