@@ -11,11 +11,10 @@ import 'package:provider/provider.dart';
 // ignore: must_be_immutable
 class MealScreen extends StatefulWidget {
   final Category category;
-  final int controllerRes;
+
   Meal? meal;
   MealScreen({
     required this.category,
-    required this.controllerRes,
   });
 
   @override
@@ -59,7 +58,6 @@ class _MealScreenState extends State<MealScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Meal> meals = Provider.of<SelectedItem>(context, listen: false).meals;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -157,14 +155,6 @@ class _MealScreenState extends State<MealScreen> {
                                                           selectedItem, child) {
                                                 return InkWell(
                                                   onTap: () {
-                                                    // sub = widget.controllerRes -
-                                                    //     selectedItem.totalCal;
-
-                                                    // if ((widget.controllerRes -
-                                                    //         selectedItem
-                                                    //             .totalCal) >=
-                                                    //     selectedItem
-                                                    //         .currentKcal) {
                                                     SelectedItem selectedItem =
                                                         Provider.of<
                                                                 SelectedItem>(
@@ -184,28 +174,6 @@ class _MealScreenState extends State<MealScreen> {
                                                     Scaffold.of(context)
                                                       // ignore: deprecated_member_use
                                                       ..showSnackBar(snackbar);
-                                                    // } else
-                                                    // (widget
-                                                    //           .controllerRes -
-                                                    //       selectedItem
-                                                    //           .totalCal) <
-                                                    //   selectedItem
-                                                    //       .currentKcal)
-                                                    // {
-                                                    //   var wariningBar =
-                                                    //       SnackBar(
-                                                    //     content: Text(
-                                                    //         'Cannot add this meal'),
-                                                    //     backgroundColor:
-                                                    //         Colors.red.shade800,
-                                                    //     duration: Duration(
-                                                    //         seconds: 1),
-                                                    //   );
-                                                    //   Scaffold.of(context)
-                                                    //     // ignore: deprecated_member_use
-                                                    //     ..showSnackBar(
-                                                    //         wariningBar);
-                                                    // }
                                                   },
                                                   child: Icon(
                                                     Icons.add,
