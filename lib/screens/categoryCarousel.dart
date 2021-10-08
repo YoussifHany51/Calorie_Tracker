@@ -10,7 +10,7 @@ class CategoryCarousel extends StatefulWidget {
 
 List<Category> categories = [
   Category(
-    name: 'Meat',
+    name: 'Bf & Chicken',
     image: 'images/img/meat.jpg',
   ),
   Category(
