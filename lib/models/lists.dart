@@ -1,6 +1,6 @@
 import 'meals.dart';
 
-List<Meal> meatList = [
+List<Meal> beefchikenList = [
   Meal(name: 'Grilled Rabbit', kcal: '193'),
   Meal(name: 'Boiled Rabbit', kcal: '194'),
   Meal(name: 'Geese', kcal: '349'),
