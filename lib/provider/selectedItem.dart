@@ -1,4 +1,4 @@
-import 'package:calorie_tracker/models/meals.dart';
+import 'package:calorie_tracker/models/meal.dart';
 import 'package:flutter/widgets.dart';
 
 class SelectedItem extends ChangeNotifier {
