@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:calorie_tracker/models/category.dart';
 import 'package:calorie_tracker/screens/mealsScreen.dart';
 
+// ignore: must_be_immutable
 class CategoryCarousel extends StatefulWidget {
   @override
   _CategoryCarouselState createState() => _CategoryCarouselState();
@@ -69,6 +70,7 @@ class _CategoryCarouselState extends State<CategoryCarousel> {
                     MaterialPageRoute(
                         builder: (_) => MealScreen(
                               category: category,
+                              // nameList: widget.fun,
                             )));
               },
               child: Container(
