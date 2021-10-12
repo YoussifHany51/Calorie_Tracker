@@ -1,4 +1,4 @@
-import 'meals.dart';
+import 'meal.dart';
 
 List<Meal> beefchikenList = [
   Meal(name: 'Grilled Rabbit', kcal: '193'),
