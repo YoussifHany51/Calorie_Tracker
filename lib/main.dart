@@ -1,6 +1,7 @@
 import 'package:calorie_tracker/provider/selectedItem.dart';
 import 'package:calorie_tracker/welcome/welcomeScreen.dart';
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 void main() {
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
           )
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Calorie Tracker',
           home: Welcome(),
         ));
