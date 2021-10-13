@@ -1,4 +1,4 @@
-import 'package:calorie_tracker/models/meals.dart';
+import 'package:calorie_tracker/models/meal.dart';
 import 'package:calorie_tracker/provider/selectedItem.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +12,7 @@ import 'package:sliding_sheet/sliding_sheet.dart';
 
 import 'categoryCarousel.dart';
 
+// ignore: must_be_immutable
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -20,10 +21,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   static TextEditingController controller = TextEditingController();
   String controllerValue = '0';
+  List<String> nameList = [];
+
   @override
   void initState() {
     super.initState();
     getController();
+    getNameList();
   }
 
   var res;
@@ -87,12 +91,13 @@ class _HomeState extends State<Home> {
                         lineWidth: 12,
                         backgroundColor: Colors.blue.shade800,
                         percent:
-                            convert(controllerValue) >= selectedItem.totalCal
+                            (convert(controllerValue) - selectedItem.totalCal) >
+                                    selectedItem.currentKcal
                                 ? convert(controllerValue) != 0
                                     ? (selectedItem.totalCal /
                                         convert(controllerValue))
                                     : 0
-                                : warning(),
+                                : 1,
                         progressColor: Colors.white,
                         circularStrokeCap: CircularStrokeCap.round,
                         animation: true,
@@ -102,13 +107,14 @@ class _HomeState extends State<Home> {
                           height: 200.0,
                           width: 200.0,
                           child: LiquidCircularProgressIndicator(
-                            value: convert(controllerValue) >=
-                                    selectedItem.totalCal
+                            value: (convert(controllerValue) -
+                                        selectedItem.totalCal) >
+                                    selectedItem.currentKcal
                                 ? convert(controllerValue) != 0
                                     ? (selectedItem.totalCal /
                                         convert(controllerValue))
                                     : 0
-                                : warning(),
+                                : 1,
                             valueColor: AlwaysStoppedAnimation(Colors.blue),
                             backgroundColor: Colors.lightBlue.shade900,
                             borderColor: Colors.black54,
@@ -298,9 +304,7 @@ class _HomeState extends State<Home> {
                 ),
 
                 //
-                CategoryCarousel(
-                  control: convert(controllerValue),
-                ),
+                CategoryCarousel(),
                 //
 
                 Flex(direction: Axis.horizontal, children: [
@@ -370,17 +374,17 @@ class _HomeState extends State<Home> {
                 title: Text(
                   meals[index].name,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     color: Colors.black,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 subtitle: Text(
                   meals[index].kcal + " Kcal",
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 22,
                     color: Colors.black,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
                 trailing: Text(
@@ -492,22 +496,9 @@ class _HomeState extends State<Home> {
     setState(() {});
   }
 
-  warning() {
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text('Oops ! '),
-              content: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      "Stop gainning calories you have reached your target today",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ));
-        });
+  void getNameList() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    nameList = prefs.getStringList('nameList')!;
+    setState(() {});
   }
 }
