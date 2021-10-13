@@ -1,17 +1,15 @@
-import 'dart:math';
-
 import 'package:calorie_tracker/provider/selectedItem.dart';
 import 'package:flutter/material.dart';
 
 import 'package:calorie_tracker/models/category.dart';
 import 'package:calorie_tracker/models/lists.dart';
-import 'package:calorie_tracker/models/meals.dart';
+import 'package:calorie_tracker/models/meal.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class MealScreen extends StatefulWidget {
   final Category category;
-
   Meal? meal;
   MealScreen({
     required this.category,
@@ -22,17 +20,12 @@ class MealScreen extends StatefulWidget {
 }
 
 class _MealScreenState extends State<MealScreen> {
-  int sub = 0;
-  var res;
-  int convert(String x) {
-    res = int.parse(x);
-    return res;
-  }
+  // ignore: non_constant_identifier_names
 
   List<Meal> chosenList(dynamic name) {
     switch (name) {
-      case 'Meat':
-        return meatList;
+      case 'Bf & Chicken':
+        return beefchikenList;
       case 'Fruit':
         return fruitList;
       case 'Vegetables':
@@ -160,9 +153,14 @@ class _MealScreenState extends State<MealScreen> {
                                                                 SelectedItem>(
                                                             context,
                                                             listen: false);
-                                                    selectedItem.addItem(
-                                                        chosenList(widget
-                                                            .category.name)[i]);
+                                                    // selectedItem.addItem(
+                                                    //     chosenList(widget
+                                                    //         .category.name)[i]);
+                                                    setNameList(
+                                                        selectedItem.addItem(
+                                                            chosenList(widget
+                                                                .category
+                                                                .name)[i]));
                                                     var snackbar = SnackBar(
                                                       content:
                                                           Text('meal added'),
@@ -242,5 +240,10 @@ class _MealScreenState extends State<MealScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> setNameList(data) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('nameList', data);
   }
 }
